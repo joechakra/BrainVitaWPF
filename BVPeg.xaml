@@ -30,13 +30,13 @@
 
             <VisualState x:Name="Chosen">
                 <Storyboard>
-                        <PointAnimation Storyboard.TargetName="br" Storyboard.TargetProperty="GradientOrigin" To="0.75,0.75"></PointAnimation>
+                        <PointAnimation Storyboard.TargetName="br" Storyboard.TargetProperty="GradientOrigin" Duration="0" To="0.75,0.75"></PointAnimation>
                 </Storyboard>
             </VisualState>
 
             <VisualState x:Name="Normal">
                 <Storyboard>
-                    <PointAnimation Storyboard.TargetName="br" Storyboard.TargetProperty="GradientOrigin" To="0.25,0.25"></PointAnimation>
+                    <PointAnimation Storyboard.TargetName="br" Storyboard.TargetProperty="GradientOrigin" Duration="0" To="0.25,0.25"></PointAnimation>
                 </Storyboard>
             </VisualState>
 
