@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace JoeChakra.Games
+namespace theSundayProgrammer.Games
 {
     public partial class BVHole
     {

@@ -19,7 +19,7 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters;
 
 
-namespace JoeChakra.BrainVita
+namespace theSundayProgrammer.Games.BrainVita
 {
 
     enum Direction

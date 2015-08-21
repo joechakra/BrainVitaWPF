@@ -1,22 +1,18 @@
-//-------------------------------------------------
-// BrainVita.cs (c) 2011 by Joe Mariadassou
-//-------------------------------------------------
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Threading;
+//using System.Windows.Threading;
 using System.Windows.Media.Imaging;
 using System.Windows.Media.Animation;
 using System.Collections.Generic;
-using System.IO;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters;
-namespace JoeChakra.Games
+//using System.IO;
+//using System.Runtime.Serialization;
+//using System.Runtime.Serialization.Formatters;
+namespace theSundayProgrammer.Games.BrainVita
 {
-
     public class BrainVita : Window
     {
         public enum Direction
@@ -27,24 +23,24 @@ namespace JoeChakra.Games
             North
         };
 
-       
+
         [Serializable]
         public class Move
         {
-            public int xstart {get;set;} 
-            public int ystart {get;set;} 
-            public int xend {get;set;} 
-            public int yend {get;set;} 
+            public int xstart { get; set; }
+            public int ystart { get; set; }
+            public int xend { get; set; }
+            public int yend { get; set; }
         };
-        
+
         const int NumberRows = 7;
         const int NumberCols = 7;
 
         Stack<Move> moves = new Stack<Move>();
         UniformGrid unigrid;
-        int xSelected=-1, ySelected=-1;
+        int xSelected = -1, ySelected = -1;
 
-        JoeChakra.BrainVita.BVModel model = new JoeChakra.BrainVita.BVModel();
+        BVModel model = new BVModel();
         public System.Collections.Generic.List<Move> Moves
         {
             get
@@ -59,7 +55,7 @@ namespace JoeChakra.Games
         }
         static private bool isValid(int i, int j)
         {
-            return JoeChakra.BrainVita.BVModel.IsValid(i, j);
+            return BVModel.IsValid(i, j);
         }
         [STAThread]
         public static void Main()
@@ -118,16 +114,6 @@ namespace JoeChakra.Games
                         btn.Command = ApplicationCommands.Undo;
                         unigrid.Children.Add(btn);
                     }
-                    else if (j == 0 && i == 1)
-                    {
-                        Button btn = new Button();
-                        btn.Content = "History";
-                        ToolTip tip = new System.Windows.Controls.ToolTip();
-                        tip.Content = "Show list of moves made";
-                        btn.ToolTip = tip;
-                        unigrid.Children.Add(btn);
-                        btn.Click += show_history;
-                    }
                     else if (j == 1 && i == 0)
                     {
                         Button btn = new Button();
@@ -138,24 +124,7 @@ namespace JoeChakra.Games
                         btn.Command = ApplicationCommands.New;
                         unigrid.Children.Add(btn);
                     }
-                    else if (j == 0 && i == 6)
-                    {
-                        Button btn = new Button();
-                        btn.Content = "Save";
-                        btn.IsEnabled = true;
-                        unigrid.Children.Add(btn);
-                        btn.Click += save_click;
-                    }
-                    else if (j == 6 && i == 6)
-                    {
-                        Button btn = new Button();
-                        btn.Content = "Restore";
-                        btn.IsEnabled = true;
-                        unigrid.Children.Add(btn);
-                        btn.Click += restore_click;
-
-                    }
-                    else if (!isValid(i, j))
+                   else if (!isValid(i, j))
                     {
                         unigrid.Children.Add(new Empty());
                     }
@@ -170,7 +139,7 @@ namespace JoeChakra.Games
             model.OnSet += mcb_OnMove;
         }
 
-  
+
         void restart_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = this.moves.Count > 0;
@@ -184,7 +153,7 @@ namespace JoeChakra.Games
                 for (int j = 0; j < NumberRows; j++)
                     if (isValid(i, j))
                     {
-                        SetTile(i,j,!(i == j && i == 3));
+                        SetTile(i, j, !(i == j && i == 3));
                     }
             model.reset();   
              
@@ -209,7 +178,7 @@ namespace JoeChakra.Games
         private static Button MakeButton(string loc)
         {
             Image img = new Image();
-            img.Source = new BitmapImage(new Uri(loc, UriKind.RelativeOrAbsolute));
+            img.Source = new BitmapImage(new Uri("pack://application:,,/" + loc, UriKind.RelativeOrAbsolute));
             img.Stretch = Stretch.None;
             Button btn = new Button();
             btn.Content = img;
@@ -217,31 +186,16 @@ namespace JoeChakra.Games
             return btn;
         }
 
-        void save_click(object sender, RoutedEventArgs e)
-        {
-            this.Save();
-        }
-        void show_history(object sender, RoutedEventArgs e)
-        {
-            History his = new History(this.Moves);
-            his.Show();
-        }
-        void restore_click(object sender, RoutedEventArgs e)
-        {
-            this.restart(sender, e);
-            this.Restore();
-        }
         void undo_Click(object sender, RoutedEventArgs e)
         {
             Move move = moves.Pop();
             model.reverseXY((move.xstart - move.xend) / 2, (move.ystart - move.yend) / 2, move.xstart, move.ystart);
         }
 
-        void mcb_OnMove(object sender, JoeChakra.BrainVita.SetPosEventArgs move)
+        void mcb_OnMove(object sender, SetPosEventArgs move)
         {
            SetTile(move.X, move.Y, move.Selected);    
         }
-
         void btn_Click(object sender, RoutedEventArgs e)
         {
             Close();
@@ -284,42 +238,7 @@ namespace JoeChakra.Games
             }
 
         }
-        void Save()
-        {
-            IFormatter formatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
-            var isf = System.IO.IsolatedStorage.IsolatedStorageFile.GetUserStoreForAssembly();
-            System.IO.Stream stream = new System.IO.IsolatedStorage.IsolatedStorageFileStream("Snapshot.bvt", FileMode.Create,FileAccess.ReadWrite,isf);
-            formatter.Serialize(stream, Moves);
-            stream.Close();
-        }
-        void Restore()
-        {
-            IFormatter formatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
-            var isf = System.IO.IsolatedStorage.IsolatedStorageFile.GetUserStoreForAssembly();
-            
-            try
-            {
-                System.IO.Stream stream = new System.IO.IsolatedStorage.IsolatedStorageFileStream("Snapshot.bvt", FileMode.Open, FileAccess.Read, isf);
-                object obj = formatter.Deserialize(stream);
-             
-                moves.Clear();
-                System.Collections.Generic.List<JoeChakra.Games.BrainVita.Move> lmoves = obj as System.Collections.Generic.List<JoeChakra.Games.BrainVita.Move>;
-                
-                lmoves.Reverse();
-                foreach (var m in lmoves)
-                {
-                    Move move = m as Move;
-                    moves.Push(move);
-                    model.moveXY(move.xend,move.yend, move.xstart, move.ystart);
-                }
-                
-                stream.Close();
-            }
-            catch
-            {
-                MessageBox.Show("Unable to restore");
-            }
-        }
+
         void OnPegClick(object sender, MouseButtonEventArgs args)
         {
             if (xSelected >= 0) //if inited

@@ -3,7 +3,7 @@
 //--------------------------------------
 using System.Windows;
 using System.Windows.Media;
-namespace JoeChakra.Games
+namespace theSundayProgrammer.Games
 {
     class Empty : System.Windows.FrameworkElement
     {

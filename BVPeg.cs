@@ -1,4 +1,4 @@
-﻿namespace JoeChakra.Games
+﻿namespace theSundayProgrammer.Games
 {
 	public partial class BVPeg
 	{
