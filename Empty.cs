@@ -10,7 +10,6 @@ namespace theSundayProgrammer.Games
         protected override void OnRender(System.Windows.Media.DrawingContext drawingContext)
         {
             base.OnRender(drawingContext);
-            //drawingContext.DrawRectangle(new SolidColorBrush(
-        }
+         }
     }
 }

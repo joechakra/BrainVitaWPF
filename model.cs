@@ -4,19 +4,8 @@
 
 
 using System;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Threading;
-using System.Windows.Media.Imaging;
-using System.Windows.Media.Animation;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters;
+
 
 
 namespace theSundayProgrammer.Games.BrainVita
