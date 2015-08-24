@@ -3,7 +3,7 @@ BrainVitaWPF
 
 A .NET project using C# &amp; WPF  to make a GUI for BrainVita. See http://thesundayprogrammer.wordpress.com/BrainVita for a brief description of the game.  The .NET 3.5 has been branched off as 'Net3.5'
 
-Revision History
+==Revision History==
 The current version is built using VS2015; .NET 4.5. There is no need for WPFToolKit or FSharp.Core and hence have been removed.
 
 

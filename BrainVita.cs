@@ -244,13 +244,11 @@ namespace theSundayProgrammer.Games.BrainVita
                 for (int i = 0; i < ySelected * NumberCols + xSelected+1; ++i)
                     tiles.MoveNext();
                 BVPeg utile = tiles.Current as BVPeg;
-                //utile.Selected = false;
                 
                 utile.MouseLeftButtonDown += OnPegClick;
                 VisualStateManager.GoToState(utile, "Normal", false);
             }
             BVPeg tile = sender as BVPeg;
-            //tile.Selected = true;
             int iMove = unigrid.Children.IndexOf(tile);
             tile.MouseLeftButtonDown += OnPegClick;
             xSelected = iMove % NumberCols;
